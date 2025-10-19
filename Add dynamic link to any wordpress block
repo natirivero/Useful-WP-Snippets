@@ -1,10 +1,11 @@
 function add_post_link_to_team_post_type($block_content, $block)
 {
-  if (is_single() && get_post_type() === 'team') {
 
-    if (!is_admin() && isset($block['attrs']['className']) && $block['attrs']['className'] === 'team-sidebar-btn wdse-check-if-active') {
+  if (!is_admin() && isset($block['attrs']['className']) && $block['attrs']['className'] === 'team-sidebar-btn') {
 
-      global $post;
+    global $post;
+
+    if ($post->post_type === 'team') {
 
       $post_url = get_the_permalink($post->ID);
 
@@ -12,8 +13,8 @@ function add_post_link_to_team_post_type($block_content, $block)
         return '<a href="' . esc_url($post_url) . '">' . $block_content . '</a>';
       }
     }
-
-    return $block_content;
   }
+
+  return $block_content;
 }
 add_filter('render_block', 'add_post_link_to_team_post_type', 10, 2);
